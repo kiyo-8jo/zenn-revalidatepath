@@ -1,4 +1,16 @@
-export default function Home() {
+import { Todo } from "./api/type";
+
+async function FetchTodo() {
+  const res = await fetch("http://localhost:3000/api/todo", {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return data.todos;
+}
+
+export default async function Home() {
+  const todos = await FetchTodo();
+  console.log(todos);
   return (
     <main className="h-screen w-full flex items-center justify-center text-center bg-orange-100 text-xl">
       <div className="flex flex-col h-fit w-fit bg-gray-200  px-20 py-8 rounded-2xl">
@@ -17,10 +29,9 @@ export default function Home() {
         </form>
         <div>
           <ul>
-            <li>・aaaaa</li>
-            <li>・aaaaa</li>
-            <li>・aaaaa</li>
-            <li>・aaaaa</li>
+            {todos.map((todo: Todo) => (
+              <li key={todo.id}>{todo.name}</li>
+            ))}
           </ul>
         </div>
       </div>
