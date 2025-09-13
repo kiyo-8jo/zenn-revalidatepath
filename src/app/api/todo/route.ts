@@ -14,7 +14,7 @@ export async function connect() {
 export const GET = async (req: Request, res: NextResponse) => {
   try {
     await connect();
-    const todos = await prisma.todo.findMany();
+    const todos = await prisma.todo.findMany({ orderBy: { id: "desc" } });
     return NextResponse.json({ message: "Success", todos }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Error", error });
